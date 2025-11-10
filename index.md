@@ -1033,28 +1033,11 @@ hri-2026-research/
 }
 ```
 
----
 
-## 👥 Contact
 
-**Author:** Your Name  
-**Affiliation:** Your University  
-**Email:** your.email@university.edu  
-**GitHub:** [@your-username](https://github.com/your-username)
-
----
-
-## 📝 Acknowledgments
-
-- Advisors and collaborators
-- Funding sources
-- CoppeliaSim developers
-- Reviewers for valuable feedback
-
----
 
 **Last Updated:** November 10, 2025  
-**Status:** Ready for publication
+
 
 ---
 
