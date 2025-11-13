@@ -124,7 +124,7 @@ const Header: React.FC = () => {
           <a href="#discussion" className={navLinkClasses}>Discussion</a>
         </div>
         <div className="flex items-center space-x-2">
-          <a href="#" className={`${buttonLinkClasses} bg-blue-600 hover:bg-blue-700 text-white`}>
+          <a href="paper.pdf" target="_blank" rel="noopener noreferrer" className={`${buttonLinkClasses} bg-blue-600 hover:bg-blue-700 text-white`}>
             <PaperIcon />
             <span className="hidden sm:inline">Paper</span>
           </a>
