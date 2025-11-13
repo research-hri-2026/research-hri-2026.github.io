@@ -108,20 +108,34 @@ const Header: React.FC = () => {
     };
   }, []);
 
-  const navLinkClasses = "text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium";
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const targetId = e.currentTarget.getAttribute('href');
+    if (!targetId) return;
+    const element = document.querySelector(targetId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const navLinkClasses = "text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium cursor-pointer";
   const buttonLinkClasses = "flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200";
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-sm shadow-md' : 'bg-white'}`}>
       <nav className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
-        <a href="#" className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
-          Resilient Multi-Robot Coordination
+        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
+          Keeping the Team Moving
         </a>
         <div className="hidden md:flex items-center space-x-6">
-          <a href="#abstract" className={navLinkClasses}>Abstract</a>
-          <a href="#method" className={navLinkClasses}>Method</a>
-          <a href="#results" className={navLinkClasses}>Results</a>
-          <a href="#discussion" className={navLinkClasses}>Discussion</a>
+          <a href="#abstract" onClick={handleNavClick} className={navLinkClasses}>Abstract</a>
+          <a href="#method" onClick={handleNavClick} className={navLinkClasses}>Method</a>
+          <a href="#results" onClick={handleNavClick} className={navLinkClasses}>Results</a>
+          <a href="#related-work" onClick={handleNavClick} className={navLinkClasses}>Related Work</a>
+          <a href="#discussion" onClick={handleNavClick} className={navLinkClasses}>Discussion</a>
+          <a href="#notations" onClick={handleNavClick} className={navLinkClasses}>Notations</a>
         </div>
         <div className="flex items-center space-x-2">
           <a href="paper.pdf" target="_blank" rel="noopener noreferrer" className={`${buttonLinkClasses} bg-blue-600 hover:bg-blue-700 text-white`}>
@@ -141,7 +155,7 @@ const Hero: React.FC = () => {
   return (
     <section className="text-center py-12">
       <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-12 leading-tight">
-        Keeping the Team Moving: How Resilient Multi-Robot Coordination Affects Human Trust and Fluency
+        Keeping the Team Moving: Resilient Multi-Robot Coordination for Effective Human–Robot Collaboration
       </h1>
       
       <VideoPlaceholder text="Teaser Video" />
@@ -215,6 +229,67 @@ const ReviewerResponse: React.FC = () => {
   );
 };
 
+// --- From components/Notations.tsx ---
+
+const NotationEntry: React.FC<{ symbol: string; description: string }> = ({ symbol, description }) => (
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-2 py-4 border-b border-gray-200 last:border-b-0 items-start">
+    <dt className="font-mono text-lg text-blue-700 md:text-right md:pr-6"><code>{symbol}</code></dt>
+    <dd className="md:col-span-3 text-lg leading-relaxed">{description}</dd>
+  </div>
+);
+
+const NotationGroup: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
+  <div className="mb-12">
+    <h3 className="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-blue-200 pb-2">{title}</h3>
+    <dl>
+      {children}
+    </dl>
+  </div>
+);
+
+const Notations: React.FC = () => {
+  return (
+    <Section id="notations" title="Appendix: Notation Guide">
+      <div className="text-justify leading-relaxed">
+        <p className="text-center mb-12 text-lg">
+          This section provides a comprehensive guide to the mathematical notations and symbols used throughout the paper to ensure clarity and reproducibility.
+        </p>
+
+        <NotationGroup title="Perception & State Estimation">
+          <NotationEntry symbol="p_h(t)" description="The estimated 2D position of the human partner at time t." />
+          <NotationEntry symbol="v_h(t)" description="The estimated 2D velocity of the human partner at time t." />
+          <NotationEntry symbol="x_t" description="The complete state of the human at time t, comprising position and velocity, i.e., [p_h(t), v_h(t)]." />
+          <NotationEntry symbol="r_buffer" description="A buffer radius added to sensor measurements to create an annulus (Region of Plausibility), accounting for noise." />
+          <NotationEntry symbol="σ_sensor" description="The standard deviation of the RF-ranging sensor's measurement error, used to calculate r_buffer." />
+          <NotationEntry symbol="c_A, c_B" description="The two candidate centroids for the human's position arising from the intersection of two measurement annuli in a two-robot setup." />
+        </NotationGroup>
+
+        <NotationGroup title="Prediction & Motion Planning">
+          <NotationEntry symbol="S-MPC" description="Stochastic Model Predictive Control, our risk-aware motion planning framework." />
+          <NotationEntry symbol="H" description="The prediction horizon, representing the number of future time steps the S-MPC plans over." />
+          <NotationEntry symbol="J" description="The total cost function that the S-MPC aims to minimize." />
+          <NotationEntry symbol="J_deterministic,k" description="The deterministic component of the cost function, related to tracking a reference path and maintaining formation." />
+          <NotationEntry symbol="J_stochastic,k" description="The stochastic (probabilistic) component of the cost, penalizing the risk of collision with the human based on predicted uncertainty." />
+          <NotationEntry symbol="p_com(k)" description="The position of the robot formation's center of mass at future time step k." />
+          <NotationEntry symbol="R_total" description="The total required separation distance between the robot formation and the human, used to calculate risk." />
+          <NotationEntry symbol="u*" description="The optimal control sequence (robot actions) found by the S-MPC solver." />
+          <NotationEntry symbol="VO" description="Velocity Obstacle, a method used for proactive collision avoidance with dynamic and static obstacles." />
+        </NotationGroup>
+        
+        <NotationGroup title="Failsafe Supervisor & Shared Autonomy">
+          <NotationEntry symbol="D_cost" description="A trigger flag for a 'High-Effort Failure' deadlock, activated when the planner cost is persistently high." />
+          <NotationEntry symbol="D_prog" description="A trigger flag for a 'Low-Effort Failure' deadlock, activated when the team makes negligible forward progress." />
+          <NotationEntry symbol="D_gap" description="A trigger flag for a 'Team Coordination Gap', activated when the separation between the human and robots exceeds a threshold." />
+          <NotationEntry symbol="T_severe" description="A severe cost threshold used to detect high-effort failures." />
+          <NotationEntry symbol="d_prog(t)" description="The forward progress of the formation along its reference path at time t." />
+          <NotationEntry symbol="D_max" description="The maximum allowable separation distance before a coordination gap is flagged." />
+        </NotationGroup>
+
+      </div>
+    </Section>
+  );
+};
+
 
 // --- From App.tsx ---
 
@@ -264,9 +339,9 @@ const App: React.FC = () => {
           </div>
            <div className="mt-12">
              <h3 className="text-2xl font-bold mb-4 text-center">System Architecture Deep Dive</h3>
-             <ImagePlaceholder aspectRatio="aspect-[2/1]" text="Figure 2: System Architecture Diagram" />
+             <img src="System Architecture.png" alt="System Architecture Diagram" className="w-full rounded-lg shadow-lg border border-gray-200" />
              <p className="text-lg mt-4 text-justify">
-              The diagram above illustrates the data flow. Raw sensor data (top) is fed into the Perception module, which generates a reliable human state estimate. This estimate is used by a probabilistic predictor to forecast future paths. The S-MPC motion planner uses this forecast to generate safe robot actions (bottom). In parallel, the Failsafe Supervisor monitors system costs and progress, and can trigger an override via the Shared Autonomy protocol, engaging the human for collaborative recovery.
+              <strong>Figure 2: System Architecture.</strong> The diagram illustrates the data flow. Raw sensor data (top) is fed into the Perception module, which generates a reliable human state estimate. This estimate is used by a probabilistic predictor to forecast future paths. The S-MPC motion planner uses this forecast to generate safe robot actions (bottom). In parallel, the Failsafe Supervisor monitors system costs and progress, and can trigger an override via the Shared Autonomy protocol, engaging the human for collaborative recovery.
              </p>
            </div>
         </Section>
@@ -323,6 +398,7 @@ const App: React.FC = () => {
         </Section>
 
         <ReviewerResponse />
+        <Notations />
         
       </main>
 
