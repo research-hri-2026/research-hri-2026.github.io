@@ -338,7 +338,7 @@ const App: React.FC = () => {
             </div>
           </div>
            <div className="mt-12">
-             <h3 className="text-2xl font-bold mb-4 text-center">System Architecture Deep Dive</h3>
+             <h3 className="text-2xl font-bold mb-4 text-center">System Architecture Overview</h3>
              <img src="System Architecture.png" alt="System Architecture Diagram" className="w-full rounded-lg shadow-lg border border-gray-200" />
              <p className="text-center text-md italic text-gray-600 mt-2">
                 Figure 2: The proposed hierarchical system architecture.
@@ -395,7 +395,7 @@ const App: React.FC = () => {
                 </video>
               </div>
               <p className="text-center text-md italic text-gray-600 mt-2">
-                Figure 7: A video showing the qualitative validation of our perception pipeline.
+                Figure 7: A Deep Dive into Our Robust Perception Pipeline.
               </p>
                <div className="mt-8">
                  <h4 className="text-xl font-bold mb-2">Quantitative Analysis</h4>
