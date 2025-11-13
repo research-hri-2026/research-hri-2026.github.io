@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -400,6 +401,17 @@ const App: React.FC = () => {
               <p className="text-center text-md italic text-gray-600 mt-2">
                 Figure 7: A Deep Dive into Our Robust Perception Pipeline.
               </p>
+               <div className="mt-12">
+                <h4 className="text-xl font-bold mb-4 text-center">Comparative Analysis: Baseline vs. Our Method</h4>
+                <p className="text-lg mb-4 text-justify">
+                  This video provides a side-by-side comparison of our perception pipeline against a baseline method that uses direct multilateration. Note the baseline's frequent localization failures (red flashes) and incorrect "ghost" path selections, while our method maintains stable and accurate tracking.
+                </p>
+                <div className="aspect-video w-full overflow-hidden rounded-lg shadow-lg border border-gray-200 bg-black mt-4">
+                  <video className="w-full h-full object-contain" src="comparison.mp4" controls autoPlay muted loop>
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
                <div className="mt-8">
                  <h4 className="text-xl font-bold mb-2">Quantitative Analysis</h4>
                  <ImagePlaceholder aspectRatio="aspect-[2/1]" text="Figure 5: Quantitative Validation Plots (Error, Ambiguity Resolution, Failure Rate)" />
