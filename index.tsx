@@ -340,9 +340,43 @@ const App: React.FC = () => {
            <div className="mt-12">
              <h3 className="text-2xl font-bold mb-4 text-center">System Architecture Deep Dive</h3>
              <img src="System Architecture.png" alt="System Architecture Diagram" className="w-full rounded-lg shadow-lg border border-gray-200" />
-             <p className="text-lg mt-4 text-justify">
-              <strong>Figure 2: System Architecture.</strong> The diagram illustrates the data flow. Raw sensor data (top) is fed into the Perception module, which generates a reliable human state estimate. This estimate is used by a probabilistic predictor to forecast future paths. The S-MPC motion planner uses this forecast to generate safe robot actions (bottom). In parallel, the Failsafe Supervisor monitors system costs and progress, and can trigger an override via the Shared Autonomy protocol, engaging the human for collaborative recovery.
+             <p className="text-center text-md italic text-gray-600 mt-2">
+                Figure 2: The proposed hierarchical system architecture.
              </p>
+             <div className="text-lg mt-4 text-justify space-y-4">
+                <p>Our approach integrates three coordinated layers to achieve safe, responsive multi-robot human-following:</p>
+                
+                <div>
+                    <h4 className="text-xl font-bold mt-4 mb-2">Layer 1: Perception and Prediction Pipeline</h4>
+                    <p>The system begins with noisy RF-ranging measurements from multiple robots. Our Region of Plausibility formulation converts these noisy distance measurements into bounded geometric areas (annuli) that guarantee the true human position lies within them. A two-phase ambiguity filter then resolves the inherent ambiguity of multi-robot localization—selecting the temporally consistent human position estimate and rejecting "ghost" solutions. This layer outputs a reliable, bounded human state estimate fed downstream.</p>
+                </div>
+
+                <div>
+                    <h4 className="text-xl font-bold mt-4 mb-2">Layer 2: Risk-Aware Motion Planning (S-MPC)</h4>
+                    <p>The reliable human position estimate flows into a stochastic model predictive controller (S-MPC) that plans safe, predictable robot motions while maintaining formation. The S-MPC continuously monitors three complementary failure modes:</p>
+                    <ul className="list-disc list-inside space-y-2 pl-4 mt-2">
+                        <li><strong>Constraint-Conflict Failure:</strong> High MPC cost indicates conflicting objectives (e.g., formation maintenance vs. collision avoidance in narrow passages). The system is struggling but not yet deadlocked.</li>
+                        <li><strong>Stagnation Failure:</strong> Low MPC cost but negligible forward progress indicates the robots are stuck in a local minimum. The system appears healthy but makes no task progress.</li>
+                        <li><strong>Coordination Gap Failure:</strong> Even when the robot system appears locally healthy (low cost, smooth motion), the team may be losing synchronization with the human partner. This occurs when the human's speed or path choices exceed the robot's risk-averse planning capabilities, causing the separation distance between robot formation and human to exceed a safety threshold (D_max). The robots may be moving smoothly, but they're falling behind and losing team cohesion.</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 className="text-xl font-bold mt-4 mb-2">Layer 3: Failsafe Supervisor and Human-Robot Coordination</h4>
+                    <p>When either failure mode is detected, the supervisor triggers an alert to the human partner. The human can then:</p>
+                     <ul className="list-disc list-inside space-y-2 pl-4 mt-2">
+                        <li>Provide guidance to resolve constraint conflicts</li>
+                        <li>Break deadlocks by commanding a new waypoint</li>
+                        <li>Or toggle shared autonomy modes</li>
+                    </ul>
+                     <p>The supervisor seamlessly handles the transition between autonomous operation and human guidance, ensuring the team keeps moving toward their goal.</p>
+                </div>
+                
+                <div>
+                    <h4 className="text-xl font-bold mt-4 mb-2">Why Integration Matters</h4>
+                    <p>This three-layer architecture works because each layer is optimized for its role—perception for robustness, planning for safety, and supervision for resilience. Individual components cannot replicate integrated system performance (demonstrated through ablation studies). The tight coupling between perception reliability and control failure detection prevents catastrophic cascading failures common in systems where these concerns are addressed separately.</p>
+                </div>
+              </div>
            </div>
         </Section>
 
