@@ -348,7 +348,7 @@ const App: React.FC = () => {
                 
                 <div>
                     <h4 className="text-xl font-bold mt-4 mb-2">Layer 1: Perception and Prediction Pipeline</h4>
-                    <p>The system begins with noisy RF-ranging measurements from multiple robots. Our Region of Plausibility formulation converts these noisy distance measurements into bounded geometric areas (annuli) that guarantee the true human position lies within them. A two-phase ambiguity filter then resolves the inherent ambiguity of multi-robot localization—selecting the temporally consistent human position estimate and rejecting "ghost" solutions. This layer outputs a reliable, bounded human state estimate fed downstream.</p>
+                    <p>The system begins with noisy RF-ranging measurements from multiple robots. Our Region of Plausibility formulation converts these noisy distance measurements into bounded geometric areas (annuli) that guarantee the true human position lies within them. A two-phase ambiguity filter then resolves the inherent ambiguity of multi-robot localization—selecting the temporally consistent human position estimate and rejecting "ghost" solutions. This reliable estimate is then fed into a Particle Filter to forecast the human's future path for our motion planner. This layer outputs a reliable, bounded human state estimate fed downstream. </p>
                 </div>
 
                 <div>
