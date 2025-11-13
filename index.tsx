@@ -154,9 +154,12 @@ const Header: React.FC = () => {
 const Hero: React.FC = () => {
   return (
     <section className="text-center py-12">
-      <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-12 leading-tight">
+      <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
         Keeping the Team Moving: Resilient Multi-Robot Coordination for Effective Human–Robot Collaboration
       </h1>
+      <p className="max-w-3xl mx-auto text-center text-amber-800 bg-amber-100 border-l-4 border-amber-500 p-4 rounded-md mb-12">
+        <strong>Note:</strong> This project page is a work in progress and supplementary materials are being added.
+      </p>
       
       <VideoPlaceholder text="Teaser Video" />
 
