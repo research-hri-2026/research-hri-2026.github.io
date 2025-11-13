@@ -355,7 +355,14 @@ const App: React.FC = () => {
             <div>
               <h3 className="text-2xl font-bold mb-4">Perception Pipeline Validation</h3>
               <p className="text-lg mb-4 text-justify">Our pipeline successfully tracks the human's ground truth path while consistently rejecting the ambiguous 'ghost' path. The "Region of Plausibility" concept ensures robustness against sensor noise, while the "Minimum Displacement Principle" resolves ambiguity. The average estimation error was 0.212m, with zero localization failures compared to a 2.5% failure rate for a brittle baseline.</p>
-              <ImagePlaceholder aspectRatio="aspect-video" text="Figure 7: Qualitative validation of perception pipeline" />
+              <div className="aspect-video w-full overflow-hidden rounded-lg shadow-lg border border-gray-200 bg-black">
+                <video className="w-full h-full object-contain" src="perception.mp4" controls autoPlay muted loop>
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <p className="text-center text-md italic text-gray-600 mt-2">
+                Figure 7: A video showing the qualitative validation of our perception pipeline.
+              </p>
                <div className="mt-8">
                  <h4 className="text-xl font-bold mb-2">Quantitative Analysis</h4>
                  <ImagePlaceholder aspectRatio="aspect-[2/1]" text="Figure 5: Quantitative Validation Plots (Error, Ambiguity Resolution, Failure Rate)" />
