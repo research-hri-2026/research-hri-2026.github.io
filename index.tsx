@@ -407,7 +407,7 @@ const App: React.FC = () => {
                   This video provides a side-by-side comparison of our perception pipeline against a baseline method that uses direct multilateration. Note the baseline's frequent localization failures (red flashes) and incorrect "ghost" path selections, while our method maintains stable and accurate tracking.
                 </p>
                 <div className="aspect-video w-full overflow-hidden rounded-lg shadow-lg border border-gray-200 bg-black mt-4">
-                  <video className="w-full h-full object-contain" src="comparison1.mp4" controls autoPlay muted loop>
+                  <video className="w-full h-full object-contain" src="comparison2.mp4" controls autoPlay muted loop>
                     Your browser does not support the video tag.
                   </video>
                 </div>
