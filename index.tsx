@@ -126,7 +126,7 @@ const Header: React.FC = () => {
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-sm shadow-md' : 'bg-white'}`}>
-      <nav className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
         <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
           Keeping the Team Moving
         </a>
@@ -137,6 +137,7 @@ const Header: React.FC = () => {
           <a href="#related-work" onClick={handleNavClick} className={navLinkClasses}>Related Work</a>
           <a href="#discussion" onClick={handleNavClick} className={navLinkClasses}>Discussion</a>
           <a href="#notations" onClick={handleNavClick} className={navLinkClasses}>Notations</a>
+          <a href="#parameters" onClick={handleNavClick} className={navLinkClasses}>Parameters</a>
         </div>
         <div className="flex items-center space-x-2">
           <a href="paper.pdf" target="_blank" rel="noopener noreferrer" className={`${buttonLinkClasses} bg-blue-600 hover:bg-blue-700 text-white`}>
@@ -155,7 +156,7 @@ const Header: React.FC = () => {
 const Hero: React.FC = () => {
   return (
     <section className="text-center py-12">
-      <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+      <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
         Keeping the Team Moving: Resilient Multi-Robot Coordination for Effective Human–Robot Collaboration
       </h1>
       <p className="max-w-3xl mx-auto text-center text-amber-800 bg-amber-100 border-l-4 border-amber-500 p-4 rounded-md mb-12">
@@ -294,6 +295,80 @@ const Notations: React.FC = () => {
   );
 };
 
+// --- From components/ParametersTable.tsx ---
+
+const parametersData = [
+    {
+        group: 'Perception',
+        items: [
+            { parameter: 'Sensor Noise', notation: 'σ_sensor', value: '0.10 m', justification: 'Grounded in Hardware Reality. Matches the performance of commercial UWB trackers (e.g., Decawave) in cluttered, non-line-of-sight indoor environments. The Region of Plausibility buffer is set as r_buffer = 3σ_sensor ≈ 0.30 m, guaranteeing the true human position lies within the annular region with ≈99.7% confidence.' }
+        ]
+    },
+    {
+        group: 'Failsafe: High-Effort',
+        items: [
+            { parameter: 'Severe Cost', notation: 'T_severe', value: '40,000 (median)', justification: 'Data-Driven Deadlock Threshold. Determined from an empirical analysis of MPC cost distributions over 200+ runs. This value represents the saturation point observed only in unsolvable constraint-conflict scenarios (e.g., impassable gap). The median statistic ensures robustness against transient cost spikes.' },
+            { parameter: 'Sustained Cost', notation: 'T_sustained', value: '28,000', justification: 'Distinguishing Struggle from Transience. A deadlock is flagged if ≥80% of costs in the 2.0s window exceed 28,000. This value is calibrated to be above transient spikes (≈25k), and the ratio-based trigger ensures the supervisor acts only on persistent high-effort states, not brief fluctuations.' }
+        ]
+    },
+    {
+        group: 'Failsafe: Low-Effort',
+        items: [
+            { parameter: 'Min. Velocity', notation: 'V_min', value: '0.1 m/s', justification: 'Quantifying Intentional Motion. This threshold is set 10× above the velocity estimator noise floor (~0.01 m/s), ensuring that any motion below this speed is considered unintentional drift rather than deliberate, commanded action. Used to qualify both stagnation and coordination gap triggers.' },
+            { parameter: 'Progress', notation: 't_p', value: '0.05 m (over 2.0 s)', justification: 'Quantifying Stagnation. Over the 2.0 s monitoring window, making less than 5 cm of forward progress along the reference path is an unambiguous indicator of "Low-Effort Deadlock"—negligible for task completion but significantly above measurement noise (~1 cm).' }
+        ]
+    },
+    {
+        group: 'Failsafe: Coordination',
+        items: [
+            { parameter: 'Max. Separation', notation: 'D_max', value: '4.0 m', justification: 'Defining Breakdown in Team Cohesion. Set to 2× the nominal following distance (D_safe = 2.0 m) as a heuristic for significant coordination failure. Empirically validated across 200+ scenarios: values <3.5 m triggered false alarms during wide turns; values >4.5 m allowed excessive team drift before recovery,increasing the risk of perception degradation compromising the human state estimate.' }
+        ]
+    }
+];
+
+const ParametersTable: React.FC = () => {
+  return (
+    <Section id="parameters" title="Appendix: Key Parameters & Tuning">
+      <div className="text-justify leading-relaxed">
+        <p className="text-center mb-12 text-lg">
+          This table provides a detailed breakdown of the key system parameters, their chosen values, and the methodology behind their tuning for reproducibility.
+        </p>
+        <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-4 text-left text-base font-semibold text-gray-700">Parameter</th>
+                <th scope="col" className="px-6 py-4 text-left text-base font-semibold text-gray-700">Notation</th>
+                <th scope="col" className="px-6 py-4 text-left text-base font-semibold text-gray-700">Value</th>
+                <th scope="col" className="px-6 py-4 text-left text-base font-semibold text-gray-700">Justification & Tuning Methodology</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {parametersData.map(({ group, items }) => (
+                <React.Fragment key={group}>
+                  <tr>
+                    <td colSpan={4} className="px-4 py-3 bg-blue-50">
+                      <h4 className="text-lg font-bold text-blue-800">{group}</h4>
+                    </td>
+                  </tr>
+                  {items.map((item, index) => (
+                    <tr key={index} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 align-top text-base font-medium text-gray-800 whitespace-nowrap">{item.parameter}</td>
+                      <td className="px-6 py-4 align-top font-mono text-lg text-blue-700 whitespace-nowrap"><code>{item.notation}</code></td>
+                      <td className="px-6 py-4 align-top text-base text-gray-700 whitespace-nowrap">{item.value}</td>
+                      <td className="px-6 py-4 align-top text-base text-gray-600 leading-relaxed text-justify">{item.justification}</td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
 
 // --- From App.tsx ---
 
@@ -352,26 +427,26 @@ const App: React.FC = () => {
                 
                 <div>
                     <h4 className="text-xl font-bold mt-4 mb-2">Layer 1: Perception and Prediction Pipeline</h4>
-                    <p>The system begins with noisy RF-ranging measurements from multiple robots. Our Region of Plausibility formulation converts these noisy distance measurements into bounded geometric areas (annuli) that guarantee the true human position lies within them. A two-phase ambiguity filter then resolves the inherent ambiguity of multi-robot localization—selecting the temporally consistent human position estimate and rejecting "ghost" solutions. This reliable estimate is then fed into a Particle Filter to forecast the human's future path for our motion planner. This layer outputs a reliable, bounded human state estimate fed downstream. </p>
+                    <p>The system begins with noisy RF-ranging measurements. Our <strong>Region of Plausibility</strong> formulation converts these into bounded geometric areas (annuli), and a <strong>two-phase ambiguity filter</strong> resolves localization ambiguity to produce a reliable human position estimate. This estimate is then fed into a context-aware <strong>Particle Filter</strong>, which generates a rich, probabilistic forecast of the human's future path—not as a single trajectory, but as a "tube" of possibilities that captures uncertainty.</p>
                 </div>
 
                 <div>
                     <h4 className="text-xl font-bold mt-4 mb-2">Layer 2: Risk-Aware Motion Planning (S-MPC)</h4>
-                    <p>The reliable human position estimate flows into a stochastic model predictive controller (S-MPC) that plans safe, predictable robot motions while maintaining formation. The S-MPC continuously monitors three complementary failure modes:</p>
+                    <p>The probabilistic forecast flows into a <strong>stochastic model predictive controller (S-MPC)</strong> that plans safe, predictable robot motions while maintaining formation. This planner integrates <strong>Velocity Obstacles (VO)</strong> to proactively generate guaranteed collision-free velocities around static and dynamic objects. The S-MPC's core safety mechanism is a probabilistic risk cost that penalizes potential future collisions, leading to emergent cautious behavior. It continuously monitors for three complementary failure modes:</p>
                     <ul className="list-disc list-inside space-y-2 pl-4 mt-2">
-                        <li><strong>Constraint-Conflict Failure:</strong> High MPC cost indicates conflicting objectives (e.g., formation maintenance vs. collision avoidance in narrow passages). The system is struggling but not yet deadlocked.</li>
-                        <li><strong>Stagnation Failure:</strong> Low MPC cost but negligible forward progress indicates the robots are stuck in a local minimum. The system appears healthy but makes no task progress.</li>
-                        <li><strong>Coordination Gap Failure:</strong> Even when the robot system appears locally healthy (low cost, smooth motion), the team may be losing synchronization with the human partner. This occurs when the human's speed or path choices exceed the robot's risk-averse planning capabilities, causing the separation distance between robot formation and human to exceed a safety threshold (D_max). The robots may be moving smoothly, but they're falling behind and losing team cohesion.</li>
+                        <li><strong>Constraint-Conflict Failure:</strong> High MPC cost indicates conflicting objectives (e.g., formation maintenance vs. collision avoidance).</li>
+                        <li><strong>Stagnation Failure:</strong> Low MPC cost but negligible forward progress indicates the robots are stuck in a local minimum.</li>
+                        <li><strong>Coordination Gap Failure:</strong> The team is losing synchronization with the human, with separation distance exceeding a safety threshold (D_max).</li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 className="text-xl font-bold mt-4 mb-2">Layer 3: Failsafe Supervisor and Human-Robot Coordination</h4>
-                    <p>When either failure mode is detected, the supervisor triggers an alert to the human partner. The human can then:</p>
+                    <p>When any failure mode is detected, the supervisor triggers a clear, actionable alert to the human partner, offering three strategic choices for collaborative recovery:</p>
                      <ul className="list-disc list-inside space-y-2 pl-4 mt-2">
-                        <li>Provide guidance to resolve constraint conflicts</li>
-                        <li>Break deadlocks by commanding a new waypoint</li>
-                        <li>Or toggle shared autonomy modes</li>
+                        <li><strong>"Wait Mode":</strong> Pause the task and allow the robots to rendezvous with the human's last known position.</li>
+                        <li><strong>"Redirection Mode":</strong> Assign a new goal waypoint for the robots to navigate to autonomously.</li>
+                        <li><strong>"Role Reversal Mode":</strong> Command the robots to take the lead and plot a safe path through a challenging area for the human to follow.</li>
                     </ul>
                      <p>The supervisor seamlessly handles the transition between autonomous operation and human guidance, ensuring the team keeps moving toward their goal.</p>
                 </div>
@@ -407,7 +482,7 @@ const App: React.FC = () => {
                   This video provides a side-by-side comparison of our perception pipeline against a baseline method that uses direct multilateration. Note the baseline's frequent localization failures (red flashes) and incorrect "ghost" path selections, while our method maintains stable and accurate tracking.
                 </p>
                 <div className="aspect-video w-full overflow-hidden rounded-lg shadow-lg border border-gray-200 bg-black mt-4">
-                  <video className="w-full h-full object-contain" src="comparison2.mp4" controls autoPlay muted loop>
+                  <video className="w-full h-full object-contain" src="comparison.mp4" controls autoPlay muted loop>
                     Your browser does not support the video tag.
                   </video>
                 </div>
@@ -416,6 +491,18 @@ const App: React.FC = () => {
                  <h4 className="text-xl font-bold mb-2">Quantitative Analysis</h4>
                  <ImagePlaceholder aspectRatio="aspect-[2/1]" text="Figure 5: Quantitative Validation Plots (Error, Ambiguity Resolution, Failure Rate)" />
                </div>
+               <div className="mt-12">
+                  <h4 className="text-xl font-bold mb-4 text-center">System Success Rate Comparison</h4>
+                  <img src="system_performance_chart.png" alt="System Performance Comparison by Path Trajectory" className="w-full rounded-lg shadow-lg border border-gray-200 bg-white p-4" />
+                   <p className="text-center text-md italic text-gray-600 mt-2">
+                       Figure 8: Comparative success rates across five distinct path trajectories.
+                   </p>
+                  <div className="text-lg mt-4 text-justify space-y-4">
+                       <p>This chart shows the comparative success rates of our proposed system and a standard baseline across five trajectories of increasing complexity. Each result is aggregated from n=30 trials per path, tested across three distinct sensor noise levels (σ={'{'}0.05, 0.10, 0.15{'}'}m) to ensure a robust evaluation.</p>
+                       <p>While both systems perform flawlessly on the simple straight-line path (Path 1), the baseline's performance collapses on all non-linear trajectories. This is because Paths 2 through 5—the U-Turn, Circle, Inward Spiral, and Figure-8—all contain segments where the human is no longer directly in front of the robots. This breaks the baseline's naive perception filter, which cannot resolve the resulting geometric ambiguity and fails to maintain a stable track.</p>
+                       <p>In contrast, our system demonstrates 100% success across all trajectories, validating the effectiveness of our integrated perception pipeline and failsafe architecture in maintaining robust performance even in challenging, ambiguous scenarios.</p>
+                  </div>
+                </div>
             </div>
 
             <div>
@@ -455,6 +542,7 @@ const App: React.FC = () => {
 
         <ReviewerResponse />
         <Notations />
+        <ParametersTable />
         
       </main>
 
