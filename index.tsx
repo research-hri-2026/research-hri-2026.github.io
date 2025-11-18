@@ -136,6 +136,7 @@ const Header: React.FC = () => {
           <a href="#results" onClick={handleNavClick} className={navLinkClasses}>Results</a>
           <a href="#related-work" onClick={handleNavClick} className={navLinkClasses}>Related Work</a>
           <a href="#discussion" onClick={handleNavClick} className={navLinkClasses}>Discussion</a>
+          <a href="#user-study" onClick={handleNavClick} className={navLinkClasses}>User Study</a>
           <a href="#notations" onClick={handleNavClick} className={navLinkClasses}>Notations</a>
           <a href="#parameters" onClick={handleNavClick} className={navLinkClasses}>Parameters</a>
         </div>
@@ -506,21 +507,18 @@ const App: React.FC = () => {
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold mb-4">High-Effort Deadlock Scenario</h3>
-              <p className="text-lg mb-4 text-justify">The robot team must navigate a narrow gap. Our system proactively detects the high-cost maneuver and communicates with the human for a shared resolution, whereas the baseline gets stuck.</p>
-              <VideoPlaceholder text="Scenario A: High-Effort Deadlock" />
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold mb-4">Low-Effort Deadlock Scenario</h3>
-              <p className="text-lg mb-4 text-justify">An obstacle blocks the path. Our system detects planner stagnation and alerts the human to choose a recovery strategy, while the baseline stops without recourse.</p>
-              <VideoPlaceholder text="Scenario B: Low-Effort Deadlock" />
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-bold mb-4">Coordination Gap Scenario</h3>
-              <p className="text-lg mb-4 text-justify">The human speeds up, causing the robots to fall behind. Our system detects the large separation (a coordination gap) and initiates communication to re-establish formation.</p>
-              <VideoPlaceholder text="Scenario C: Coordination Gap" />
+              <h3 className="text-2xl font-bold mb-4">Failsafe Supervisor in Action: Deadlock & Recovery Scenarios</h3>
+              <p className="text-lg mb-4 text-justify">
+                This video demonstrates the core contribution of our failsafe supervisor across a variety of challenging scenarios. We showcase how the system detects and recovers from different types of failures where a baseline planner would get permanently stuck. This includes:
+              </p>
+              <ul className="list-disc list-inside space-y-2 pl-4 my-4 text-lg text-justify">
+                <li><strong>Deadlocks:</strong> The robot team gets trapped in a narrow passage or blocked by an obstacle. Our system detects the impasse (whether from high-effort constraint conflicts or low-effort stagnation) and initiates a collaborative recovery with the human.</li>
+                <li><strong>Coordination Gaps:</strong> The human partner moves too quickly or unpredictably, causing the robots to fall behind. The supervisor identifies the breakdown in team cohesion and alerts the human to re-establish formation.</li>
+              </ul>
+              <p className="text-lg mb-4 text-justify">
+                In all cases, our architecture ensures the team keeps moving, transforming potential mission-ending failures into solvable problems through resilient, human-in-the-loop coordination.
+              </p>
+              <VideoPlaceholder text="Demonstration: Deadlock and Coordination Failure Recovery" />
             </div>
 
             <div>
@@ -541,6 +539,13 @@ const App: React.FC = () => {
         </Section>
 
         <ReviewerResponse />
+
+        <Section id="user-study" title="User Study (Work in Progress)">
+          <p className="text-lg leading-relaxed text-justify">
+            The study employs an interactive simulation interface where participants control the human character through various task scenarios in the same environment used for technical validation. After completing each task, participants provide quantitative feedback.
+          </p>
+        </Section>
+        
         <Notations />
         <ParametersTable />
         
