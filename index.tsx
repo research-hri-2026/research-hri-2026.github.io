@@ -164,7 +164,19 @@ const Hero: React.FC = () => {
         <strong>Note:</strong> This project page is a work in progress and supplementary materials are being added.
       </p>
       
-      <VideoPlaceholder text="Teaser Video" />
+      <div className="aspect-video w-full overflow-hidden rounded-lg shadow-lg border border-gray-200 bg-black max-w-4xl mx-auto">
+        <video 
+          className="w-full h-full object-contain" 
+          src="teaser.mp4" 
+          controls 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
     </section>
   );
