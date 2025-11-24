@@ -433,7 +433,7 @@ const App: React.FC = () => {
              <h3 className="text-2xl font-bold mb-4 text-center">System Architecture Overview</h3>
              <img src="System Architecture.png" alt="System Architecture Diagram" className="w-full rounded-lg shadow-lg border border-gray-200" />
              <p className="text-center text-md italic text-gray-600 mt-2">
-                Figure 2: The proposed hierarchical system architecture.
+                Figure 1: The proposed hierarchical system architecture.
              </p>
              <div className="text-lg mt-4 text-justify space-y-4">
                 <p>Our approach integrates three coordinated layers to achieve safe, responsive multi-robot human-following:</p>
@@ -487,7 +487,7 @@ const App: React.FC = () => {
                 </video>
               </div>
               <p className="text-center text-md italic text-gray-600 mt-2">
-                Figure 7: A Deep Dive into Our Robust Perception Pipeline.
+                A Deep Dive into Our Robust Perception Pipeline.
               </p>
                <div className="mt-12">
                 <h4 className="text-xl font-bold mb-4 text-center">Comparative Analysis: Baseline vs. Our Method</h4>
@@ -499,16 +499,12 @@ const App: React.FC = () => {
                     Your browser does not support the video tag.
                   </video>
                 </div>
-              </div>
-               <div className="mt-8">
-                 <h4 className="text-xl font-bold mb-2">Quantitative Analysis</h4>
-                 <ImagePlaceholder aspectRatio="aspect-[2/1]" text="Figure 5: Quantitative Validation Plots (Error, Ambiguity Resolution, Failure Rate)" />
-               </div>
+            
                <div className="mt-12">
                   <h4 className="text-xl font-bold mb-4 text-center">System Success Rate Comparison</h4>
                   <img src="system_performance_chart.png" alt="System Performance Comparison by Path Trajectory" className="w-full rounded-lg shadow-lg border border-gray-200 bg-white p-4" />
                    <p className="text-center text-md italic text-gray-600 mt-2">
-                       Figure 8: Comparative success rates across five distinct path trajectories.
+                       Figure 2: Comparative success rates across five distinct path trajectories.
                    </p>
                   <div className="text-lg mt-4 text-justify space-y-4">
                        <p>This chart shows the comparative success rates of our proposed system and a standard baseline across five trajectories of increasing complexity. Each result is aggregated from n=30 trials per path, tested across three distinct sensor noise levels (σ={'{'}0.05, 0.10, 0.15{'}'}m) to ensure a robust evaluation.</p>
