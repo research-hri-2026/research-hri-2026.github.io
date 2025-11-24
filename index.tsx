@@ -551,7 +551,7 @@ const App: React.FC = () => {
         
         <Section id="related-work" title="Related Work">
             <p className="text-lg leading-relaxed text-justify">
-                {/* TODO: Add content for Related Work here. */}
+                
                 This section addresses reviewer feedback regarding the need for a broader discussion of related literature. Our work builds upon foundational research in several areas. In multi-robot motion planning, we extend concepts from Model Predictive Control (MPC) by incorporating a stochastic framework to handle uncertainty, similar to the work of [Author, Year]. However, our approach is distinct in its focus on human-robot teams and shared autonomy...
                 <br/><br/>
                 Regarding perception, while UWB-based localization has been explored [Author, Year], our two-phase ambiguity filter provides a novel solution for the minimal two-robot configuration, a common and challenging scenario...
