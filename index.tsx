@@ -499,11 +499,12 @@ const App: React.FC = () => {
                     Your browser does not support the video tag.
                   </video>
                 </div>
-              </div>
+              /*</div>
                <div className="mt-8">
                  <h4 className="text-xl font-bold mb-2">Quantitative Analysis</h4>
                  <ImagePlaceholder aspectRatio="aspect-[2/1]" text="Figure 5: Quantitative Validation Plots (Error, Ambiguity Resolution, Failure Rate)" />
                </div>
+              */
                <div className="mt-12">
                   <h4 className="text-xl font-bold mb-4 text-center">System Success Rate Comparison</h4>
                   <img src="system_performance_chart.png" alt="System Performance Comparison by Path Trajectory" className="w-full rounded-lg shadow-lg border border-gray-200 bg-white p-4" />
