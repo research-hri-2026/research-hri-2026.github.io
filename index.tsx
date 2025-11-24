@@ -527,8 +527,19 @@ const App: React.FC = () => {
               <p className="text-lg mb-4 text-justify">
                 In all cases, our architecture ensures the team keeps moving, transforming potential mission-ending failures into solvable problems through resilient, human-in-the-loop coordination.
               </p>
-              <VideoPlaceholder text="Demonstration: Deadlock and Coordination Failure Recovery" />
-            </div>
+              <div className="aspect-video w-full overflow-hidden rounded-lg shadow-lg border border-gray-200 bg-black max-w-4xl mx-auto">
+                <video 
+                  className="w-full h-full object-contain" 
+                  src="failsafe.mp4" 
+                  controls 
+                  autoPlay 
+                  muted 
+                  loop 
+                  playsInline
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
 
             <div>
               <h3 className="text-2xl font-bold mb-4">Future Evaluation: Ablation Studies</h3>
