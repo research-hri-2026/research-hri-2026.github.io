@@ -2,20 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Keeping the Team Moving: Resilient Multi-Robot Coordination</title>
+    <title>Keeping the Team Moving</title>
+    
+    <!-- 1. Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Babel (Browser mein code run karne ke liye) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
-  }
-}
-</script>
+    
+    <!-- 3. Import Map (Bata raha hai React kahan se download karna hai) -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client"
+      }
+    }
+    </script>
+  
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TKPETH2VGB"></script>
     <script>
@@ -25,9 +30,20 @@
 
       gtag('config', 'G-TKPETH2VGB');
     </script>
-</head>
+  </head>
+  
   <body class="bg-gray-50 text-gray-800">
     <div id="root"></div>
-    <script type="text/babel" data-type="module" src="./index.tsx"></script>
+
+    <!-- 4. Load your index.tsx file -->
+    <!-- Note: data-presets="react,typescript" zaroori hai -->
+    <script 
+      type="text/babel" 
+      data-type="module" 
+      data-presets="react,typescript" 
+      src="./index.tsx">
+    </script>
   </body>
 </html>
+
+
