@@ -513,6 +513,7 @@ const App: React.FC = () => {
                   </div>
                 </div>
             </div>
+            </div>
 
             <div>
               <h3 className="text-2xl font-bold mb-4">Failsafe Supervisor in Action: Deadlock & Recovery Scenarios</h3>
