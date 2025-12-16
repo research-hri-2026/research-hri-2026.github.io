@@ -541,12 +541,12 @@ const App: React.FC = () => {
               </div>
             </div> 
 
-            <div>
+            /* {/* <div>
               <h3 className="text-2xl font-bold mb-4">Future Evaluation: Ablation Studies</h3>
               <p className="text-lg mb-4 text-justify">To further isolate the contributions of our system's components, future work will include ablation studies. We will evaluate system performance with key modules disabled, such as the Failsafe Supervisor and the Two-Phase Ambiguity Filter, to quantify their impact on overall resilience and success rates.</p>
                <ImagePlaceholder aspectRatio="aspect-[2/1]" text="Placeholder for Ablation Study Results" />
             </div>
-          </div>
+          </div> */} */
         </Section>
         
         <Section id="related-work" title="Related Work">
