@@ -465,7 +465,7 @@ const App: React.FC = () => {
                 
                 <div>
                     <h4 className="text-xl font-bold mt-4 mb-2">Why Integration Matters</h4>
-                    <p>This three-layer architecture works because each layer is optimized for its role—perception for robustness, planning for safety, and supervision for resilience. Individual components cannot replicate integrated system performance (demonstrated through ablation studies). The tight coupling between perception reliability and control failure detection prevents catastrophic cascading failures common in systems where these concerns are addressed separately.</p>
+                    <p>This three-layer architecture works because each layer is optimized for its role—perception for robustness, planning for safety, and supervision for resilience. Individual components cannot replicate integrated system performance. The tight coupling between perception reliability and control failure detection prevents catastrophic cascading failures common in systems where these concerns are addressed separately.</p>
                 </div>
               </div>
            </div>
